@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use phpDocumentor\Reflection\Types\This;
 
 class User extends Authenticatable
 {
@@ -41,7 +42,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password',
+    #    'password',
         'remember_token',
     ];
 
@@ -53,4 +54,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    # Mutator for Password
+    public function setPasswordAttribute($password)
+    {
+        # code...
+        $this->attributes['password'] = bcrypt('$password');
+    }
+
+    # Accessor for Name
+    public function getNameAttribute($name) 
+    {
+        # code...
+        return ucwords('My name is '.$name);
+    }
 }

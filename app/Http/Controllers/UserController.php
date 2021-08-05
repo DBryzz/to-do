@@ -34,11 +34,11 @@ class UserController extends Controller
 
         # Mass Assignment and Create
         $aUser = [
-            'name' => 'Elong',
-            'email' => 'alex@elong.lu',
-            'password' => bcrypt('password'),
+            'name' => 'bilong',
+            'email' => 'alex@bilong.lu',
+            'password' => 'password',
         ];
-        User::create($aUser);
+        #User::create($aUser);
 
         # Delete
         User::where('id', 8)->delete();
