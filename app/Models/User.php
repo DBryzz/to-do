@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\Types\Self_;
 use phpDocumentor\Reflection\Types\This;
 
 class User extends Authenticatable
@@ -35,7 +37,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-     protected $guarded = [];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -56,10 +58,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public static uploadAvatar()
-    
+    public static function uploadAvatar($image)
+    {
+        $filename = $image->getClientOriginalName();
+        (new self())->deleteOldImage();
+        $image->storeAs('images', $filename, 'public');
+        auth()->user()->update(['avatar' => $filename]);
+    }
 
-/* 
+    protected function deleteOldImage()
+    {
+        # code...
+        if ($this->avatar) {
+            # code...
+            Storage::delete('/public/images/' . $this->avatar);
+        }
+    }
+
+
+    /* 
     # Mutator for Password
     public function setPasswordAttribute($password)
     {

@@ -86,34 +86,52 @@ class UserController extends Controller
         */
     }
 
-    public function upload(Request $request)
-    {
-        # code...
-        # dd($request->all()); //die-dumb whatever the request has
-        # dd($request->file('image'));
-        # dd($request->has('image'));
-        # dd($request->hasFile('image'));
-        # dd($request->image);
-
-        // $request->image->store('images', 'public');
-        if ($request->hasFile('image')) {
+    ## Initial Upload Function
+    /*
+      public function upload(Request $request)
+        {
             # code...
-            # dd($request->image->getClientOriginalName());
-            # dd(asset('images/' . Auth::user()->avatar));
+            # dd($request->all()); //die-dumb whatever the request has
+            # dd($request->file('image'));
+            # dd($request->has('image'));
+            # dd($request->hasFile('image'));
+            # dd($request->image);
+
+            // $request->image->store('images', 'public');
+            if ($request->hasFile('image')) {
+                # code...
+                # dd($request->image->getClientOriginalName());
+                # dd(asset('images/' . Auth::user()->avatar));
+
             $filename = $request->image->getClientOriginalName();
             $this->deleteOldImage();
-            $request->image->storeAs('images', $filename, 'public');
-            auth()->user()->update(['avatar' => $filename]);
+                $request->image->storeAs('images', $filename, 'public');
+                auth()->user()->update(['avatar' => $filename]); 
+            }
+
+            return redirect()->back();
+        }
+    
+        protected function deleteOldImage()
+        {
+            # code...
+            if (auth()->user()->avatar) {
+                # code...
+                Storage::delete('/public/images/'.auth()->user()->avatar);
+            }
+        } 
+    */
+
+ 
+ 
+    ## Refactored upload function
+    public function upload(Request $request)
+    {
+        if ($request->hasFile('image')) {
+            User::uploadAvatar($request->image);
         }
         return redirect()->back();
     }
 
-    protected function deleteOldImage()
-    {
-        # code...
-        if (auth()->user()->avatar) {
-            # code...
-            Storage::delete('/public/images/'.auth()->user()->avatar);
-        }
-    }
+    
 }
