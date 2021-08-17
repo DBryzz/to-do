@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -37,6 +39,7 @@ class UserController extends Controller
             'name' => 'bilong',
             'email' => 'alex@bilong.lu',
             'password' => 'password',
+
         ];
         #User::create($aUser);
 
@@ -81,5 +84,30 @@ class UserController extends Controller
 
         return view('welcome');
         */
+    }
+
+    public function upload(Request $request)
+    {
+        # code...
+        # dd($request->all()); //die-dumb whatever the request has
+        # dd($request->file('image'));
+        # dd($request->has('image'));
+        # dd($request->hasFile('image'));
+        # dd($request->image);
+
+        // $request->image->store('images', 'public');
+        if ($request->hasFile('image')) {
+            # code...
+            # dd($request->image->getClientOriginalName());
+            #dd(asset('images/' . Auth::user()->avatar));
+            $filename = $request->image->getClientOriginalName();
+            if (auth()->user()->avatar) {
+                # code...
+                Storage::delete('/public/images/' . auth()->user()->avatar);
+            }
+            $request->image->storeAs('images', $filename, 'public');
+            auth()->user()->update(['avatar' => $filename]);
+        }
+        return redirect()->back();
     }
 }

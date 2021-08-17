@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar',
     ];
 
     /**
@@ -42,7 +43,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-    #    'password',
+        'password',
         'remember_token',
     ];
 
@@ -54,7 +55,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+/* 
     # Mutator for Password
     public function setPasswordAttribute($password)
     {
@@ -67,5 +68,5 @@ class User extends Authenticatable
     {
         # code...
         return ucwords('My name is '.$name);
-    }
+    } */
 }
