@@ -99,15 +99,21 @@ class UserController extends Controller
         if ($request->hasFile('image')) {
             # code...
             # dd($request->image->getClientOriginalName());
-            #dd(asset('images/' . Auth::user()->avatar));
+            # dd(asset('images/' . Auth::user()->avatar));
             $filename = $request->image->getClientOriginalName();
-            if (auth()->user()->avatar) {
-                # code...
-                Storage::delete('/public/images/' . auth()->user()->avatar);
-            }
+            $this->deleteOldImage();
             $request->image->storeAs('images', $filename, 'public');
             auth()->user()->update(['avatar' => $filename]);
         }
         return redirect()->back();
+    }
+
+    protected function deleteOldImage()
+    {
+        # code...
+        if (auth()->user()->avatar) {
+            # code...
+            Storage::delete('/public/images/'.auth()->user()->avatar);
+        }
     }
 }
