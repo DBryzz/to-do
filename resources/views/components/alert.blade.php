@@ -1,9 +1,21 @@
 <div>
     {{$slot}}
     @if(session()->has('message'))
-    <!--<img {{session()->forget('message')}}> To remove session variable-->
-    <div class="alert alert-success">{{session()->get('message')}}</div>
+    <div class="py-4 px-2 bg-green-300">{{session()->get('message')}}</div>
     @elseif(session()->has('error'))
-    <div class="alert alert-danger">{{session()->get('error')}}</div>
+    <div class="py-4 px-2 bg-red-300">{{session()->get('error')}}</div>
     @endif
 </div>
+
+<!--<img {{session()->forget('message')}}> To remove session variable-->
+<!-- alert alert-success 4 bootstrap-->
+
+@if ($errors->any())
+<div class="py-4 px-2 bg-red-300">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
