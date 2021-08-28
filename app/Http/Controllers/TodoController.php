@@ -13,7 +13,9 @@ class TodoController extends Controller
     public function index(Type $var = null)
     {
         # code...
-        return view('todos.index');
+        $todos = Todo::all();
+        // return view('todos.index')->with(['todos' => $todos]);
+        return view('todos.index', compact('todos'));
     }
 
 
@@ -53,9 +55,21 @@ class TodoController extends Controller
     }
 
 
-    public function edit(Type $var = null)
+    public function edit(Todo $todo)
+    {
+        # Instead of passing id and using find($id), could use Todo shortcut. 
+        # If the route has id then use $id, in our case it is todo so we have $todo
+        /* dd($id->title);
+        $todo = Todo::find($id);
+        return view('todos.edit', compact('todo')); */
+
+        return view('todos.edit', compact('todo'));
+    }
+
+    public function update(Request $request, Todo $todo)
     {
         # code...
-        return view('todos.edit');
+        $todo->update(['title' => $request->title]);
+        return redirect(route('todo.index'))->with('message', 'Updated!');
     }
 }

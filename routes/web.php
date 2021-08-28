@@ -16,11 +16,11 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/todos', [TodoController::class, 'index']);
-Route::get('/todos/create', [TodoController::class, 'create']);
-Route::get('/todos/edit', [TodoController::class, 'edit']);
-Route::post('/todos/create', [TodoController::class, 'store']);
-
+Route::get('/todos', [TodoController::class, 'index'])->name('todo.index');
+Route::get('/todos/create', [TodoController::class, 'create'])->name('todo.create');
+Route::post('/todos/create', [TodoController::class, 'store'])->name('todo.post');
+Route::get('/todos/{todo}/edit', [TodoController::class, 'edit'])->name('todo.edit');
+Route::patch('/todos/{todo}/update', [TodoController::class, 'update'])->name('todo.update');
 
 Route::get('/', function () {
     return view('home');
