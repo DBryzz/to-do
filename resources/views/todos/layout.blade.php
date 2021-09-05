@@ -10,16 +10,19 @@
 </head>
 
 <body>
-    <div class="text-center flex justify-center pt-10">
-        <div class="w-1/3  border border-gray-600 rounded p-4">
-            <div class="flex flex-row">
+    <div class="text-center justify-center flex pt-10 ">
+        <div class="w-2/7 border border-gray-300 rounded p-4 ">
+            <div class="flex flex-row border-b pb-4">
                 <h1 class="text-2xl">@yield("body-h1")</h1>
 
                 @yield("button")
             </div>
 
             <x-alert></x-alert>
-            @yield("body")
+            <div class="py-4">
+                @yield("body")
+
+            </div>
         </div>
     </div>
 
