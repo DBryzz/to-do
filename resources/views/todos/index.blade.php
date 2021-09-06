@@ -4,16 +4,44 @@
 @section("body-h1", "All Your Todos")
 
 @section("button")
-<a href="{{  route('todo.create') }}" class="mx-5 py-1 px-1 bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 cursor-pointer rounded text-white">New Todo</a>
+<!-- <a href="{{  route('todo.create') }}" class="mx-5 py-1 px-1 bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 cursor-pointer rounded text-white">
+    New Todo
+</a> -->
+<a href="{{  route('todo.create') }}" class="mx-5 py-2 cursor-pointer text-white">
+    <span class="fas fa-plus-circle text-blue-400 hover:text-blue-900" />
+</a>
 @endsection("button")
 @section("body")
 <ul>
     @foreach($todos as $todo)
     <li class="flex justify-between py-2">
-        <p>{{ $todo->title }}</p>
         <div>
-            <a href="{{'/todos/'.$todo->id.'/edit'}}" class="mx-5 py-1 px-1 bg-yellow-400 cursor-pointer rounded text-white">Edit</a>
-            <span class="fas fa-check px-2"></span>
+            @include("todos.complete-button")
+        </div>
+        <div>
+            @if($todo->completed)
+            <p class="line-through">{{ $todo->title }}</p>
+            @else
+            <p class="">{{ $todo->title }}</p>
+            @endif
+        </div>
+
+
+        <div>
+            <a href="{{'/todos/'.$todo->id.'/edit'}}" class="mx-5 py-1 px-1 text-yellow-300 cursor-pointer ">
+                <span class="fas fa-edit px-2" />
+            </a>
+            <i onclick="event.preventDefault(); 
+            if(confirm('Are you sure you want to delete?')) {
+                document.getElementById('form-delete-{{$todo->id}}')
+                .submit(); 
+                console.log('deleted ?');
+            }" class="fas fa-trash px-2 mx-5 py-1  text-red-300 cursor-pointer"></i>
+
+            <form style="display:none" id="{{'form-delete-'.$todo->id}}" method="post" action="{{ route('todo.destroy', $todo->id) }}">
+                @csrf
+                @method('delete')
+            </form>
         </div>
     </li>
     @endforeach

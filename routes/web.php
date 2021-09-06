@@ -16,11 +16,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/todos', [TodoController::class, 'index'])->name('todo.index');
-Route::get('/todos/create', [TodoController::class, 'create'])->name('todo.create');
-Route::post('/todos/create', [TodoController::class, 'store'])->name('todo.post');
-Route::get('/todos/{todo}/edit', [TodoController::class, 'edit'])->name('todo.edit');
-Route::patch('/todos/{todo}/update', [TodoController::class, 'update'])->name('todo.update');
+/* Route::get('/todo', [TodoController::class, 'index'])->name('todo.index');
+Route::get('/todo/create', [TodoController::class, 'create'])->name('todo.create');
+Route::post('/todo/create', [TodoController::class, 'store'])->name('todo.post');
+Route::get('/todo/{todo}/edit', [TodoController::class, 'edit'])->name('todo.edit');
+Route::patch('/todo/{todo}/update', [TodoController::class, 'update'])->name('todo.update');
+Route::delete('/todo/{todo}/delete', [TodoController::class, 'delete'])->name('todo.destroy');
+ */
+
+Route::resource('todo', TodoController::class);
+
+Route::put('/todo/{todo}/complete', [TodoController::class, 'complete'])->name('todo.complete');
+Route::put('/todo/{todo}/incomplete', [TodoController::class, 'incomplete'])->name('todo.incomplete');
+
 
 Route::get('/', function () {
     return view('home');
