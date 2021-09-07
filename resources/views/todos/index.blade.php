@@ -8,12 +8,12 @@
     New Todo
 </a> -->
 <a href="{{  route('todo.create') }}" class="mx-5 py-2 cursor-pointer text-white">
-    <span class="fas fa-plus-circle text-blue-400 hover:text-blue-900" />
+    <span class="fas fa-plus-circle text-xl text-blue-400 hover:text-blue-900" />
 </a>
 @endsection("button")
 @section("body")
 <ul>
-    @foreach($todos as $todo)
+    @forelse($todos as $todo)
     <li class="flex justify-between py-2">
         <div>
             @include("todos.complete-button")
@@ -28,7 +28,7 @@
 
 
         <div>
-            <a href="{{'/todos/'.$todo->id.'/edit'}}" class="mx-5 py-1 px-1 text-yellow-300 cursor-pointer ">
+            <a href="{{ route('todo.edit', $todo->id) }}" class="mx-5 py-1 px-1 text-yellow-300 cursor-pointer ">
                 <span class="fas fa-edit px-2" />
             </a>
             <i onclick="event.preventDefault(); 
@@ -44,6 +44,12 @@
             </form>
         </div>
     </li>
-    @endforeach
+    @empty
+    <p>No tasks available, please create one</p>
+
+    @endforelse
+
+
+
 </ul>
 @endsection("body")

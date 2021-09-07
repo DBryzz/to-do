@@ -10,12 +10,23 @@ use Illuminate\Support\Facades\Validator;
 class TodoController extends Controller
 {
     //
+
+    public function __construct()
+    {
+        # code...
+        $this->middleware('auth')->except('index');
+    }
+
     public function index(Type $var = null)
     {
         # code...
         # $todos = Todo::all();
-        $todos = Todo::orderBy('completed', 'asc')->get();
+        #$todos = Todo::orderBy('completed', 'asc')->get();
         // return view('todos.index')->with(['todos' => $todos]);
+        /*$todos = auth()->user()->todos()->orderBy('completed', 'asc')->get();
+
+        OR*/
+        $todos = auth()->user()->todos->sortBy('completed');
         return view('todos.index', compact('todos'));
     }
 
@@ -51,7 +62,13 @@ class TodoController extends Controller
             'title' => 'required|max:255',
         ]); */
 
+        /*
+        $userId = auth()->id();
+        $request['user_id'] = $userId;
         Todo::create($request->all());
+        OR
+*/
+        auth()->user()->todos()->create($request->all());
         return redirect()->back()->with('message', 'Todo Created Successfully');
     }
 

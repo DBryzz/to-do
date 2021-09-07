@@ -24,6 +24,22 @@ Route::patch('/todo/{todo}/update', [TodoController::class, 'update'])->name('to
 Route::delete('/todo/{todo}/delete', [TodoController::class, 'delete'])->name('todo.destroy');
  */
 
+
+/* Route::middleware('auth')->group(function ()
+{ 
+    # code...
+    Route::resource('todo', TodoController::class)->middleware('auth');
+
+    Route::put('/todo/{todo}/complete', [TodoController::class, 'complete'])->name('todo.complete');
+    Route::put('/todo/{todo}/incomplete', [TodoController::class, 'incomplete'])->name('todo.incomplete');
+
+ });
+
+                        OR
+
+Route::resource('todo', TodoController::class)->middleware('auth');
+*/
+
 Route::resource('todo', TodoController::class);
 
 Route::put('/todo/{todo}/complete', [TodoController::class, 'complete'])->name('todo.complete');

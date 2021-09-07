@@ -14,6 +14,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    // protected $primaryKey = 'id';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -90,4 +92,8 @@ class User extends Authenticatable
         # code...
         return ucwords('My name is '.$name);
     } */
+    public function todos()
+    {
+        return $this->hasMany(Todo::class);
+    }
 }
