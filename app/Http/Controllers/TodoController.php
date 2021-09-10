@@ -30,6 +30,12 @@ class TodoController extends Controller
         return view('todos.index', compact('todos'));
     }
 
+    public function show(Todo $todo)
+    {
+        # code...
+        return view('todos.show', compact('todo'));
+    }
+
 
     public function create(Type $var = null)
     {

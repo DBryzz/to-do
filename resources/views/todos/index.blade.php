@@ -16,27 +16,31 @@
     @forelse($todos as $todo)
     <li class="flex justify-between py-2">
         <div>
-            @include("todos.complete-button")
+            @include("todos.partials.complete-button")
         </div>
         <div>
             @if($todo->completed)
-            <p class="line-through">{{ $todo->title }}</p>
+            <a href="{{ route('todo.show', $todo->id) }}" class="cursor-pointer">
+                <p class="line-through">{{ $todo->title }}</p>
+            </a>
             @else
-            <p class="">{{ $todo->title }}</p>
+            <a href="{{ route('todo.show', $todo->id) }}" class="cursor-pointer">
+                <p class="">{{ $todo->title }}</p>
+            </a>
             @endif
         </div>
 
 
         <div>
             <a href="{{ route('todo.edit', $todo->id) }}" class="mx-5 py-1 px-1 text-yellow-300 cursor-pointer ">
-                <span class="fas fa-edit px-2" />
+                <span class="fas fa-pen px-2" />
             </a>
             <i onclick="event.preventDefault(); 
             if(confirm('Are you sure you want to delete?')) {
                 document.getElementById('form-delete-{{$todo->id}}')
                 .submit(); 
                 console.log('deleted ?');
-            }" class="fas fa-trash px-2 mx-5 py-1  text-red-300 cursor-pointer"></i>
+            }" class="fas fa-times px-2 mx-5 py-1  text-red-300 cursor-pointer"></i>
 
             <form style="display:none" id="{{'form-delete-'.$todo->id}}" method="post" action="{{ route('todo.destroy', $todo->id) }}">
                 @csrf
