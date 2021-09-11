@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TodoCreateRequest;
+use App\Models\Step;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +15,9 @@ class TodoController extends Controller
     public function __construct()
     {
         # code...
-        $this->middleware('auth')->except('index');
+        $this->middleware('auth');
+        // $this->middleware('auth')->except('index');
+
     }
 
     public function index(Type $var = null)
@@ -24,6 +27,8 @@ class TodoController extends Controller
         #$todos = Todo::orderBy('completed', 'asc')->get();
         // return view('todos.index')->with(['todos' => $todos]);
         /*$todos = auth()->user()->todos()->orderBy('completed', 'asc')->get();
+        
+        OR $todos = auth()->user()->todos->sortBy('completed');
 
         OR*/
         $todos = auth()->user()->todos->sortBy('completed');
@@ -74,7 +79,15 @@ class TodoController extends Controller
         Todo::create($request->all());
         OR
 */
-        auth()->user()->todos()->create($request->all());
+
+        $todo = auth()->user()->todos()->create($request->all());
+
+        if ($request->steps) {
+            foreach ($request->steps as $step) {
+                # code...
+                $todo->steps()->create(['name' => $step]);
+            }
+        }
         return redirect()->back()->with('message', 'Todo Created Successfully');
     }
 
@@ -94,6 +107,17 @@ class TodoController extends Controller
     {
         # code...
         $todo->update(['title' => $request->title]);
+        if ($request->stepNames) {
+            foreach ($request->stepNames as $key => $value) {
+                $id = $request->stepIds[$key];
+                if (!$id) {
+                    $todo->steps()->create(['name' => $value]);
+                } else {
+                    $step = Step::find($id);
+                    $step->update(['name' => $value]);
+                }
+            }
+        }
         return redirect(route('todo.index'))->with('message', 'Updated!');
     }
 
@@ -117,6 +141,7 @@ class TodoController extends Controller
     public function destroy(Todo $todo)
     {
         # code...
+        $todo->steps->each->delete();
         $todo->delete();
         return redirect()->back()->with('message', 'Task deleted!');
     }

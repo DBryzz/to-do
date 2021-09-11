@@ -17,7 +17,7 @@
     </div>
 
     <div class="pt-4 pb-2">
-        
+
         <livewire:step />
     </div>
 
@@ -26,7 +26,6 @@
     </div>
 
 </form>
-<livewire:counter />
 
 <a href="{{ route('todo.index') }}" class="mx-5 p-2 cursor-pointer rounded text-white">
     <span class="fas fa-arrow-alt-circle-left text-3xl text-blue-400 hover:text-blue-900" />

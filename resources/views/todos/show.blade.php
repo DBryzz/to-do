@@ -9,5 +9,27 @@
 @endsection("button")
 
 @section("body")
-{{ $todo->description }}
-@endsection("body")
+<div>
+    <h3 class="text-lg font-bold">Description</h3>
+    <p class="text-lg">{{ $todo->description }}</p>
+</div>
+
+@if ($todo->steps->count()>0)
+<div class="p-4">
+    <h3 class="text-lg font-bold">Steps for this task</h3>
+    <div class="flex justify-center">
+        <ul class=" list-disc text-left">
+            @foreach ($todo->steps as $step)
+            <li class="">{{ $step->name }}</li>
+            @endforeach
+        </ul>
+    </div>
+
+
+</div>
+@endif
+
+<!-- text-center justify-center flex pt-10 ">
+<div class="w-3/5 border border-gray-300 rounded p-4  -->
+
+@endsection(" body")
