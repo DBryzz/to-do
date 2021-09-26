@@ -25,13 +25,22 @@ A todo may also contains steps.
 
 3 - Make sure you are in repo's root directory, then run <i>composer install</i> to install all dependencies.
 
-4 - Run <i>docker-compose build</i> to build services
+4 - Change database parameters in .env file to <br/>
+<i>DB_CONNECTION=mysql </br>
+DB_HOST=mysql</br>
+DB_PORT=3306 </br>
+DB_DATABASE=todo</br>
+DB_USERNAME=root</br>
+DB_PASSWORD=secret</i>
 
-5 - Run <i>docker-compose up</i> to run application.
+5 - Run <i>docker-compose build</i> to build services
 
-6 - Access application at localhost:8088 </br><br/>
+6 - Run <i>docker-compose up</i> to run application.
+
+7 - Access application at localhost:8088 </br><br/>
 
 ## Running Migrations.
+
 1 - Run services as described above
 
 2 - Run docker-compose exec command on php container

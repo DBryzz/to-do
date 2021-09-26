@@ -40,8 +40,8 @@ services:
       - ./mysql:/var/lib/mysql
 
     environment:
-      MYSQL_DATABASE: sos
-      MYSQL_USER: sos
+      MYSQL_DATABASE: todo
+      MYSQL_USER: root
       MYSQL_PASSWORD: secret
       MYSQL_ROOT_PASSWORD: secret
       SERVICE_TAGS: dev
